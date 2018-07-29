@@ -1,0 +1,165 @@
+/*
+ * File:   lcd.main
+ * Author: Achu
+ *
+ * Created on 7 June, 2018, 11:11 PM
+ */
+
+
+/* 
+ * PIC18F4550 Configuration Bit Settings
+ * http://www.electronicwings.com
+ */
+
+
+/* PIC18F4550 Configuration Bit Settings*/
+
+/* 'C' source line config statements*/
+
+#include <xc.h>
+
+// #pragma config statements should precede project file includes.
+// Use project enums instead of #define for ON and OFF.
+
+// CONFIG1L
+#pragma config PLLDIV = 1       // PLL Prescaler Selection bits (No prescale (4 MHz oscillator input drives PLL directly))
+#pragma config CPUDIV = OSC1_PLL2// System Clock Postscaler Selection bits ([Primary Oscillator Src: /1][96 MHz PLL Src: /2])
+#pragma config USBDIV = 1       // USB Clock Selection bit (used in Full-Speed USB mode only; UCFG:FSEN = 1) (USB clock source comes directly from the primary oscillator block with no postscale)
+
+// CONFIG1H
+#pragma config FOSC = INTOSC_EC // Oscillator Selection bits (Internal oscillator, CLKO function on RA6, EC used by USB (INTCKO))
+#pragma config FCMEN = OFF      // Fail-Safe Clock Monitor Enable bit (Fail-Safe Clock Monitor disabled)
+#pragma config IESO = OFF       // Internal/External Oscillator Switchover bit (Oscillator Switchover mode disabled)
+
+// CONFIG2L
+#pragma config PWRT = OFF       // Power-up Timer Enable bit (PWRT disabled)
+#pragma config BOR = ON         // Brown-out Reset Enable bits (Brown-out Reset disabled in hardware and software)
+#pragma config BORV = 3         // Brown-out Reset Voltage bits (Minimum setting 2.05V)
+#pragma config VREGEN = OFF     // USB Voltage Regulator Enable bit (USB voltage regulator disabled)
+
+// CONFIG2H
+#pragma config WDT = OFF        // Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDTEN bit))
+#pragma config WDTPS = 32768    // Watchdog Timer Postscale Select bits (1:32768)
+
+// CONFIG3H
+#pragma config CCP2MX = ON      // CCP2 MUX bit (CCP2 input/output is multiplexed with RC1)
+#pragma config PBADEN = OFF      // PORTB A/D Enable bit (PORTB<4:0> pins are configured as analog input channels on Reset)
+#pragma config LPT1OSC = OFF    // Low-Power Timer 1 Oscillator Enable bit (Timer1 configured for higher power operation)
+#pragma config MCLRE = OFF      // MCLR Pin Enable bit (RE3 input pin enabled; MCLR pin disabled)
+
+// CONFIG4L
+#pragma config STVREN = ON      // Stack Full/Underflow Reset Enable bit (Stack full/underflow will cause Reset)
+#pragma config LVP = OFF         // Single-Supply ICSP Enable bit (Single-Supply ICSP enabled)
+#pragma config ICPRT = OFF      // Dedicated In-Circuit Debug/Programming Port (ICPORT) Enable bit (ICPORT disabled)
+#pragma config XINST = OFF      // Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode disabled (Legacy mode))
+
+// CONFIG5L
+#pragma config CP0 = OFF        // Code Protection bit (Block 0 (000800-001FFFh) is not code-protected)
+#pragma config CP1 = OFF        // Code Protection bit (Block 1 (002000-003FFFh) is not code-protected)
+#pragma config CP2 = OFF        // Code Protection bit (Block 2 (004000-005FFFh) is not code-protected)
+#pragma config CP3 = OFF        // Code Protection bit (Block 3 (006000-007FFFh) is not code-protected)
+
+// CONFIG5H
+#pragma config CPB = OFF        // Boot Block Code Protection bit (Boot block (000000-0007FFh) is not code-protected)
+#pragma config CPD = OFF        // Data EEPROM Code Protection bit (Data EEPROM is not code-protected)
+
+// CONFIG6L
+#pragma config WRT0 = OFF       // Write Protection bit (Block 0 (000800-001FFFh) is not write-protected)
+#pragma config WRT1 = OFF       // Write Protection bit (Block 1 (002000-003FFFh) is not write-protected)
+#pragma config WRT2 = OFF       // Write Protection bit (Block 2 (004000-005FFFh) is not write-protected)
+#pragma config WRT3 = OFF       // Write Protection bit (Block 3 (006000-007FFFh) is not write-protected)
+
+// CONFIG6H
+#pragma config WRTC = OFF       // Configuration Register Write Protection bit (Configuration registers (300000-3000FFh) are not write-protected)
+#pragma config WRTB = OFF       // Boot Block Write Protection bit (Boot block (000000-0007FFh) is not write-protected)
+#pragma config WRTD = OFF       // Data EEPROM Write Protection bit (Data EEPROM is not write-protected)
+
+// CONFIG7L
+#pragma config EBTR0 = OFF      // Table Read Protection bit (Block 0 (000800-001FFFh) is not protected from table reads executed in other blocks)
+#pragma config EBTR1 = OFF      // Table Read Protection bit (Block 1 (002000-003FFFh) is not protected from table reads executed in other blocks)
+#pragma config EBTR2 = OFF      // Table Read Protection bit (Block 2 (004000-005FFFh) is not protected from table reads executed in other blocks)
+#pragma config EBTR3 = OFF      // Table Read Protection bit (Block 3 (006000-007FFFh) is not protected from table reads executed in other blocks)
+
+// CONFIG7H
+#pragma config EBTRB = OFF      // Boot Block Table Read Protection bit (Boot block (000000-0007FFh) is not protected from table reads executed in other blocks)
+
+#define RS LATD0                    /*PIN 0 of PORTB is assigned for register select Pin of LCD*/
+#define EN LATD2                    /*PIN 1 of PORTB is assigned for enable Pin of LCD */
+#define ldata LATA                  /*PORTB(PB4-PB7) is assigned for LCD Data Output*/ 
+#define LCD_Port TRISA
+
+/*********************Proto-Type Declaration*****************************/
+
+void MSdelay(unsigned int );        /*Generate delay in ms*/
+void LCD_Init();                    /*Initialize LCD*/
+void LCD_Command(unsigned char );   /*Send command to LCD*/
+void LCD_Char(unsigned char x);     /*Send data to LCD*/
+
+void LCD_Clear();                   /*Clear LCD Screen*/
+
+void main(void) {
+    LCD_Init();                     /*initialize LCD16x2*/    
+    LCD_Clear();
+    MSdelay(10);
+    while(1)
+    {
+     LCD_Char('a');   
+    }
+}
+void LCD_Init()
+{
+    LCD_Port = 0;                   /*PORT as Output Port*/
+    MSdelay(20);                    /*15ms,16x2 LCD Power on delay*/
+    LCD_Command(0x02);              /*send for initialization of LCD 
+                                     *for nibble (4-bit) mode */
+    LCD_Command(0x28);              /*use 2 line and 
+                                     *initialize 5*8 matrix in (4-bit mode)*/
+	LCD_Command(0x01);              /*clear display screen*/
+    LCD_Command(0x0c);              /*display on cursor off*/
+	LCD_Command(0x06);              /*increment cursor (shift cursor to right)*/	   
+}
+
+void LCD_Command(unsigned char cmd )
+{
+	ldata = (ldata & 0x0f) |(0xF0 & cmd);   /*Send higher nibble of command first to PORT*/ 
+	RS = 0;                                 /*Command Register is selected i.e.RS=0*/ 
+	EN = 1;                                 /*High-to-low pulse on Enable pin to latch data*/ 
+	NOP();
+	EN = 0;
+	MSdelay(1);
+    ldata = (ldata & 0x0f) | (cmd<<4);      /*Send lower nibble of command to PORT */
+	EN = 1;
+	NOP();
+	EN = 0;
+	MSdelay(3);
+}
+
+
+
+
+void LCD_Char(unsigned char dat)
+{
+	ldata = (ldata & 0x0f) | (0xF0 & dat);   /*Send higher nibble of data first to PORT*/
+	RS = 1;                                  /*Data Register is selected*/
+	EN = 1;                                  /*High-to-low pulse on Enable pin to latch data*/
+	NOP();
+	EN = 0;
+	MSdelay(1);
+    ldata = (ldata & 0x0f) | (dat<<4);               /*Send lower nibble of data to PORT*/
+	EN = 1;                         /*High-to-low pulse on Enable pin to latch data*/
+	NOP();
+	EN = 0;
+	MSdelay(3);
+}
+void LCD_Clear()
+{
+   	LCD_Command(0x01);     /*clear display screen*/
+    MSdelay(3);
+}
+
+void MSdelay(unsigned int val)
+{
+ unsigned int i,j;
+ for(i=0;i<val;i++)
+     for(j=0;j<165;j++);             /*This count Provide delay of 1 ms for 8MHz Frequency */
+}
