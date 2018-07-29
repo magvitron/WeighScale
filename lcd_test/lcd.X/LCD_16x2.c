@@ -1,16 +1,12 @@
 #include <xc.h>
 #include "delay.h"
-
+#include "LCD_16x2.h"
 #define RS LATD0                    /*PIN 0 of PORTB is assigned for register select Pin of LCD*/
 #define EN LATD2                    /*PIN 1 of PORTB is assigned for enable Pin of LCD */
 #define ldata LATA                  /*PORTB(PB4-PB7) is assigned for LCD Data Output*/ 
 #define LCD_Port TRISA
 #define testPort LATB
-void LCD_Init();                    /*Initialize LCD*/
-void LCD_Command(unsigned char );   /*Send command to LCD*/
-void LCD_Char(unsigned char x);     /*Send data to LCD*/
-void LCD_Str(char* str);
-void LCD_Clear();                   /*Clear LCD Screen*/
+
 
 void LCD_Init()
 {
@@ -33,6 +29,17 @@ void LCD_Init()
    // testPort =0b00000110;
 }
 
+
+void LCD_print(char str[])
+{
+	int sndstr_cnt =0;
+	
+	while (str[sndstr_cnt] != 0x00)
+	{
+		LCD_Char(str[sndstr_cnt]);
+		sndstr_cnt++;
+	}
+}
 void LCD_Command(unsigned char cmd )
 {
     char data=0;
