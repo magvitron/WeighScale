@@ -1,5 +1,5 @@
 
-# 1 "newmain.c"
+# 1 "main.c"
 
 # 26 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -4805,33 +4805,6 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
-# 49 "I2C_bitbang.h"
-unsigned char deviceAddressRead;
-unsigned char deviceAddressWrite;
-
-# 61
-void bit_out(unsigned char data);
-unsigned char bit_in(unsigned char data);
-unsigned char i2c_wr(unsigned char i2c_data);
-unsigned char i2c_rd(unsigned char ack);
-void ack_poll(unsigned char control);
-void I2CDeviceWriteBytes(unsigned char address,
-unsigned char length,
-unsigned char *data);
-
-# 102
-void I2CInit(void);
-void I2CStart(void);
-void I2CRestart(void);
-void I2CStop(void);
-char I2CAck (unsigned char control);
-void I2CNotAck(void);
-void I2CSendAddress(unsigned char Address, unsigned char I2C_Direction);
-unsigned char I2CWrite(unsigned char data_out);
-unsigned char I2CRead(unsigned char ack);
-
-void I2CDeviceSetDeviceAddress(unsigned char address);
-
 # 15 "delay.h"
 void MSdelay(unsigned int val);
 
@@ -4848,57 +4821,18 @@ void USART_newline();
 # 15 "EEPROM.h"
 void EEPROM_Write (int address, char data);
 char EEPROM_Read(int address);
-void EEPROMWriteDouble(int p_address, long p_value);
-float EEPROMReadDouble(int p_address);
+void EEPROMWritelong(int address, long value);
+long EEPROMReadlong(long address);
 
-# 101 "MC3421.h"
-typedef union
-{
-
-unsigned char byte;
-
-struct
-{
-
-unsigned char PGAGainSelectionBits : 2;
-
-unsigned char SampleRateSelectionBits : 2;
-
-unsigned char ConvertionModeBit : 1;
-unsigned char : 2;
-
-unsigned char ReadyBit : 1;
-};
-
-} MCP3421ConfigurationRegister;
-
-# 123
-typedef union
-{
-
-signed short long value;
-
-struct
-{
-
-unsigned char lower;
-
-unsigned char middle;
-
-unsigned char upper;
-};
-
-} MCP3421Data;
-
-void MCP3421InitiateConvertion(void);
-void MCP3421SetConvertionModeContinuous(void);
-void MCP3421SetConvertionModeOneShot(void);
-void MCP3421SetConvertionRate(unsigned char value);
-void MCP3421SetPGAGain(unsigned char value);
-long MCP3421GetValue(void);
+# 14 "LCD_16x2.h"
+void LCD_Init();
+void LCD_Command(unsigned char );
+void LCD_Char(unsigned char x);
+void LCD_print(char str[]);
+void LCD_Clear();
 
 
-# 30 "newmain.c"
+# 24 "main.c"
 #pragma config PLLDIV = 5
 #pragma config CPUDIV = OSC1_PLL2
 #pragma config USBDIV = 2
@@ -4960,11 +4894,13 @@ long MCP3421GetValue(void);
 
 #pragma config EBTRB = OFF
 
-# 137
+# 110
 unsigned char b, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, tx_buf[10], rdy, ack1, ack2, page, charr[4], gainst, cct, cci, adc;
 signed long rez1, rez2, rez3, rez4, rez, rezz, calib, rezult2, rezult3, constt3;
 unsigned long int i, thousand, hundred, ten, ones, adc_val;
 long sample = 0;
+long temp_val = 0;
+
 float val = 0;
 long count = 0;
 
@@ -4973,53 +4909,99 @@ void init(void);
 unsigned char compute(void);
 void calibrate();
 
+# 131
 void main(void) {
 char buff[10];
+long address = 0;
 int weight = 0;
+int cnt = 0;
+char buff1[10];
+
 TRISB = 0;
 OSCCON = 0x72;
+
+
 init();
 MSdelay(3);
 USART_Init(9600);
 USART_newline();
-send_string("16:34:37");
+send_string("23:50:26");
 USART_newline();
 send_string ("Jul 29 2018");
 USART_newline();
-int cnt = 0;
-char buff1[10];
+
+address = 0;
+sample = EEPROMReadlong(address);
+address += 4;
+temp_val = EEPROMReadlong(address);
+val = -1 * (temp_val);
+val = val / 300.0;
+
+send_string("sample: ");
+intToAscci(sample, buff);
+send_string(buff);
 USART_newline();
+
+send_string("val: ");
+intToAscci(temp_val, buff);
+send_string(buff);
+USART_newline();
+
+if (sample == 0)
+{
+
 calibrate();
+}
+
+LCD_Clear();
 
 while (1)
 {
-if (PORTBbits.RB0 == 0)
+
+if (PORTBbits.RB1 == 0)
 {
+
 val = 0;
 sample = 0;
 weight = 0;
 count = 0;
+
 calibrate();
 }
+
+
 count = (long)ReadCount();
 weight = (((count - sample) / val) - 2 * ((count - sample) / val));
+
+
 intToAscci(weight, buff);
 send_string(buff);
 send_string("  gm");
 USART_newline();
-MSdelay(1000);
+
+LCD_Command(0x02);
+LCD_print(buff);
+LCD_print(" gm");
+MSdelay(10);
 }
 }
+
+# 213
 unsigned long ReadCount(void) {
 
 unsigned long Count;
 unsigned char i;
+
 TRISAbits.RA5 = 0 ;
+
 LATAbits.LA5 = 1;
+
 LATAbits.LA4 = 0;
 TRISAbits.RA5 = 1;
 Count = 0;
+
 while (PORTAbits.RA5);
+
 for (i = 0; i < 24; i++) {
 LATAbits.LA4 = 1;
 Count = Count << 1;
@@ -5031,10 +5013,17 @@ Count = Count ^ 0x800000;
 LATAbits.LA4 = 0;
 return (Count);
 }
+
+# 246
 void calibrate()
 {
 char buff[10];
+long address = 0;
+long temp_val_local = 0;
 send_string("Calibrating...");
+LCD_Clear();
+LCD_print("Calibrating");
+
 for (int i = 0; i < 100; i++)
 {
 count = ReadCount();
@@ -5042,37 +5031,69 @@ sample += count;
 MSdelay(20);
 intToAscci(count, buff);
 send_string(buff);
-
+USART_newline();
 }
+
 sample /= 100;
 
 count = 0;
+LCD_Clear();
+LCD_print("Put 300gm weight");
 send_string("Put the weight & wait");
+USART_newline();
+
 while (count < 2000)
 {
 count = ReadCount();
 count = count - sample ;
-MSdelay(10);
-intToAscci(count, buff);
-send_string(buff);
+MSdelay(20);
+send_string('.');
 }
+LCD_Clear();
+LCD_print("Detected weight..");
+
 MSdelay(2000);
-send_string("Re-caliberating..");
+LCD_Clear();
+LCD_print("Recalibrating..");
+send_string("Recalibrating..");
+
 for (int i = 0; i < 100; i++)
 {
 count = ReadCount();
-val += sample - count;
+
+temp_val += sample - count;
+
 MSdelay(20);
-intToAscci(count, buff);
-send_string(buff);
+send_string('.');
 }
-val = val / 100.0;
+
+address = 0;
+EEPROMWritelong(address, sample);
+address += 4;
+
+temp_val = temp_val / 100;
+
+temp_val_local = -1 * temp_val;
+
+EEPROMWritelong(address, temp_val_local);
+
+intToAscci(temp_val_local, buff);
+send_string(buff);
+
+address = 0;
+
+sample = EEPROMReadlong(address);
+address += 4;
+temp_val = EEPROMReadlong(address);
+val = -1 * (temp_val);
+
 val = val / 300.0;
 }
 
-
+# 328
 void init(void)
 {
+
 ADCON1 = 0b00001111;
 CMCON = 0b00000111;
 CVRCON = 0;
@@ -5080,51 +5101,19 @@ UCON = 0;
 CCP1CON = 0;
 CCP2CON = 0;
 
-LATAbits.LATA4 = 1;
 TRISBbits.TRISB1 = 1;
 TRISBbits.TRISB0 = 1;
 TRISBbits.TRISB2 = 1;
 calib = 0;
 page = 1;
 MSdelay(100);
-TRISAbits.TRISA5 = 1;
-TRISAbits.TRISA4 = 0;
-LATAbits.LATA4 = 1;
+
 USART_Init(9600);
 TRISA0 = 1;
 TRISAbits.RA5 = 1;
 TRISAbits.RA4 = 0;
 
-}
-unsigned char compute(void)
-{
-b1 = b1 * 2;
-b2 = b2 * 4;
-b3 = b3 * 8;
-b4 = b4 * 16;
-b5 = b5 * 32;
-b6 = b6 * 64;
-b7 = b7 * 128;
-rez1 = b0 + b1 + b2 + b3 + b4 + b5 + b6 + b7;
-b9 = b9 * 2;
-b10 = b10 * 4;
-b11 = b11 * 8;
-b12 = b12 * 16;
-b13 = b13 * 32;
-b14 = b14 * 64;
-b15 = b15 * 128;
-rez2 = b8 + b9 + b10 + b11 + b12 + b13 + b14 + b15;
-b17 = b17 * 2;
-rez3 = b16 + b17;
-rez = rez3 * 65536 + rez2 * 256 + rez1;
-
-rez4 = rez & 0b00000000000000100000000000000000;
-char buf[20];
-intToAscci(rez, buf);
-
-# 298
-send_string(buf);
-txr(0x0a);
-txr(0x0D);
+LCD_Init();
+LCD_print("Weigh Scale");
 
 }

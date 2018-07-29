@@ -4,7 +4,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _TRISB `Vuc ~T0 @X0 0 e@3987 ]
 "7984
 [v _OSCCON `Vuc ~T0 @X0 0 e@4051 ]
-"145 newmain.c
+"120 main.c
 [v _init `(v ~T0 @X0 0 ef ]
 "15 delay.h
 [v _MSdelay `(v ~T0 @X0 0 ef1`ui ]
@@ -14,8 +14,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _USART_newline `(v ~T0 @X0 0 ef ]
 "19
 [v _send_string `(v ~T0 @X0 0 ef1`*uc ]
-"147 newmain.c
+"18 EEPROM.h
+[v _EEPROMReadlong `(l ~T0 @X0 0 ef1`l ]
+"20 USART.h
+[v _intToAscci `(*uc ~T0 @X0 0 ef2`l`*uc ]
+"122 main.c
 [v _calibrate `(v ~T0 @X0 0 ef ]
+"18 LCD_16x2.h
+[v _LCD_Clear `(v ~T0 @X0 0 ef ]
 "2457 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4550.h
 [s S102 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S102 . RB0 RB1 RB2 RB3 RB4 RB5 RB6 RB7 ]
@@ -30,10 +36,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S101 . . . . ]
 "2481
 [v _PORTBbits `VS101 ~T0 @X0 0 e@3969 ]
-"144 newmain.c
+"119 main.c
 [v _ReadCount `(ul ~T0 @X0 0 ef ]
-"20 USART.h
-[v _intToAscci `(*uc ~T0 @X0 0 ef2`l`*uc ]
+"15 LCD_16x2.h
+[v _LCD_Command `(v ~T0 @X0 0 ef1`uc ]
+"17
+[v _LCD_print `(v ~T0 @X0 0 ef1`*uc ]
 "3436 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4550.h
 [s S137 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S137 . TRISA0 TRISA1 TRISA2 TRISA3 TRISA4 TRISA5 TRISA6 ]
@@ -76,7 +84,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S95 . . . . . . ]
 "2351
 [v _PORTAbits `VS95 ~T0 @X0 0 e@3968 ]
-"6579
+"17 EEPROM.h
+[v _EEPROMWritelong `(v ~T0 @X0 0 ef2`i`l ]
+"6579 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4550.h
 [v _ADCON1 `Vuc ~T0 @X0 0 e@4033 ]
 "5585
 [v _CMCON `Vuc ~T0 @X0 0 e@4020 ]
@@ -101,8 +111,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _TRISBbits `VS142 ~T0 @X0 0 e@3987 ]
 "10219
 [v _TRISA0 `Vb ~T0 @X0 0 e@31888 ]
-"16 USART.h
-[v _txr `(v ~T0 @X0 0 ef1`uc ]
+"14 LCD_16x2.h
+[v _LCD_Init `(v ~T0 @X0 0 ef ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -3613,30 +3623,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic18.h: 164: extern __nonreentrant void _delay(unsigned long);
 [; ;pic18.h: 166: extern __nonreentrant void _delaywdt(unsigned long);
 [; ;pic18.h: 168: extern __nonreentrant void _delay3(unsigned char);
-"49 I2C_bitbang.h
-[v _deviceAddressRead `uc ~T0 @X0 1 e ]
-[; ;I2C_bitbang.h: 49: unsigned char deviceAddressRead;
-"50
-[v _deviceAddressWrite `uc ~T0 @X0 1 e ]
-[; ;I2C_bitbang.h: 50: unsigned char deviceAddressWrite;
-[; ;I2C_bitbang.h: 61: void bit_out(unsigned char data);
-[; ;I2C_bitbang.h: 62: unsigned char bit_in(unsigned char data);
-[; ;I2C_bitbang.h: 63: unsigned char i2c_wr(unsigned char i2c_data);
-[; ;I2C_bitbang.h: 64: unsigned char i2c_rd(unsigned char ack);
-[; ;I2C_bitbang.h: 65: void ack_poll(unsigned char control);
-[; ;I2C_bitbang.h: 66: void I2CDeviceWriteBytes(unsigned char address,
-[; ;I2C_bitbang.h: 67: unsigned char length,
-[; ;I2C_bitbang.h: 68: unsigned char *data);
-[; ;I2C_bitbang.h: 102: void I2CInit(void);
-[; ;I2C_bitbang.h: 103: void I2CStart(void);
-[; ;I2C_bitbang.h: 104: void I2CRestart(void);
-[; ;I2C_bitbang.h: 105: void I2CStop(void);
-[; ;I2C_bitbang.h: 106: char I2CAck (unsigned char control);
-[; ;I2C_bitbang.h: 107: void I2CNotAck(void);
-[; ;I2C_bitbang.h: 108: void I2CSendAddress(unsigned char Address, unsigned char I2C_Direction);
-[; ;I2C_bitbang.h: 109: unsigned char I2CWrite(unsigned char data_out);
-[; ;I2C_bitbang.h: 110: unsigned char I2CRead(unsigned char ack);
-[; ;I2C_bitbang.h: 112: void I2CDeviceSetDeviceAddress(unsigned char address);
 [; ;delay.h: 15: void MSdelay(unsigned int val);
 [; ;USART.h: 16: void txr(unsigned char temp);
 [; ;USART.h: 17: void delay(int d);
@@ -3648,113 +3634,90 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;USART.h: 23: void USART_newline();
 [; ;EEPROM.h: 15: void EEPROM_Write (int address, char data);
 [; ;EEPROM.h: 16: char EEPROM_Read(int address);
-[; ;EEPROM.h: 17: void EEPROMWriteDouble(int p_address, long p_value);
-[; ;EEPROM.h: 18: float EEPROMReadDouble(int p_address);
-[; ;MC3421.h: 101: typedef union
-[; ;MC3421.h: 102: {
-[; ;MC3421.h: 104: unsigned char byte;
-[; ;MC3421.h: 106: struct
-[; ;MC3421.h: 107: {
-[; ;MC3421.h: 109: unsigned char PGAGainSelectionBits : 2;
-[; ;MC3421.h: 111: unsigned char SampleRateSelectionBits : 2;
-[; ;MC3421.h: 113: unsigned char ConvertionModeBit : 1;
-[; ;MC3421.h: 114: unsigned char : 2;
-[; ;MC3421.h: 116: unsigned char ReadyBit : 1;
-[; ;MC3421.h: 117: };
-[; ;MC3421.h: 119: } MCP3421ConfigurationRegister;
-[; ;MC3421.h: 123: typedef union
-[; ;MC3421.h: 124: {
-[; ;MC3421.h: 126: signed short long value;
-[; ;MC3421.h: 128: struct
-[; ;MC3421.h: 129: {
-[; ;MC3421.h: 131: unsigned char lower;
-[; ;MC3421.h: 133: unsigned char middle;
-[; ;MC3421.h: 135: unsigned char upper;
-[; ;MC3421.h: 136: };
-[; ;MC3421.h: 138: } MCP3421Data;
-[; ;MC3421.h: 140: void MCP3421InitiateConvertion(void);
-[; ;MC3421.h: 141: void MCP3421SetConvertionModeContinuous(void);
-[; ;MC3421.h: 142: void MCP3421SetConvertionModeOneShot(void);
-[; ;MC3421.h: 143: void MCP3421SetConvertionRate(unsigned char value);
-[; ;MC3421.h: 144: void MCP3421SetPGAGain(unsigned char value);
-[; ;MC3421.h: 145: long MCP3421GetValue(void);
-"30 newmain.c
+[; ;EEPROM.h: 17: void EEPROMWritelong(int address, long value);
+[; ;EEPROM.h: 18: long EEPROMReadlong(long address);
+[; ;LCD_16x2.h: 14: void LCD_Init();
+[; ;LCD_16x2.h: 15: void LCD_Command(unsigned char );
+[; ;LCD_16x2.h: 16: void LCD_Char(unsigned char x);
+[; ;LCD_16x2.h: 17: void LCD_print(char str[]);
+[; ;LCD_16x2.h: 18: void LCD_Clear();
+"24 main.c
 [p x PLLDIV=5 ]
-"31
+"25
 [p x CPUDIV=OSC1_PLL2 ]
-"32
+"26
 [p x USBDIV=2 ]
-"35
+"29
 [p x FOSC=HSPLL_HS ]
-"36
+"30
 [p x FCMEN=OFF ]
-"37
+"31
 [p x IESO=OFF ]
-"40
+"34
 [p x PWRT=OFF ]
-"41
+"35
 [p x BOR=ON ]
-"42
+"36
 [p x BORV=3 ]
-"43
+"37
 [p x VREGEN=OFF ]
-"46
+"40
 [p x WDT=OFF ]
-"47
+"41
 [p x WDTPS=32768 ]
-"50
+"44
 [p x CCP2MX=ON ]
-"51
+"45
 [p x PBADEN=OFF ]
-"52
+"46
 [p x LPT1OSC=OFF ]
-"53
+"47
 [p x MCLRE=ON ]
-"56
+"50
 [p x STVREN=ON ]
-"57
+"51
 [p x LVP=OFF ]
-"58
+"52
 [p x ICPRT=OFF ]
-"59
+"53
 [p x XINST=OFF ]
-"62
+"56
 [p x CP0=OFF ]
-"63
+"57
 [p x CP1=OFF ]
-"64
+"58
 [p x CP2=OFF ]
-"65
+"59
 [p x CP3=OFF ]
-"68
+"62
 [p x CPB=OFF ]
-"69
+"63
 [p x CPD=OFF ]
-"72
+"66
 [p x WRT0=OFF ]
-"73
+"67
 [p x WRT1=OFF ]
-"74
+"68
 [p x WRT2=OFF ]
-"75
+"69
 [p x WRT3=OFF ]
-"78
+"72
 [p x WRTC=OFF ]
-"79
+"73
 [p x WRTB=OFF ]
-"80
+"74
 [p x WRTD=OFF ]
-"83
+"77
 [p x EBTR0=OFF ]
-"84
+"78
 [p x EBTR1=OFF ]
-"85
+"79
 [p x EBTR2=OFF ]
-"86
+"80
 [p x EBTR3=OFF ]
-"89
+"83
 [p x EBTRB=OFF ]
-"137
+"110
 [v _b `uc ~T0 @X0 1 e ]
 [v _b0 `uc ~T0 @X0 1 e ]
 [v _b1 `uc ~T0 @X0 1 e ]
@@ -3784,8 +3747,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _cct `uc ~T0 @X0 1 e ]
 [v _cci `uc ~T0 @X0 1 e ]
 [v _adc `uc ~T0 @X0 1 e ]
-[; ;newmain.c: 137: unsigned char b, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, tx_buf[10], rdy, ack1, ack2, page, charr[4], gainst, cct, cci, adc;
-"138
+[; ;main.c: 110: unsigned char b, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, tx_buf[10], rdy, ack1, ack2, page, charr[4], gainst, cct, cci, adc;
+"111
 [v _rez1 `l ~T0 @X0 1 e ]
 [v _rez2 `l ~T0 @X0 1 e ]
 [v _rez3 `l ~T0 @X0 1 e ]
@@ -3796,538 +3759,592 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _rezult2 `l ~T0 @X0 1 e ]
 [v _rezult3 `l ~T0 @X0 1 e ]
 [v _constt3 `l ~T0 @X0 1 e ]
-[; ;newmain.c: 138: signed long rez1, rez2, rez3, rez4, rez, rezz, calib, rezult2, rezult3, constt3;
-"139
+[; ;main.c: 111: signed long rez1, rez2, rez3, rez4, rez, rezz, calib, rezult2, rezult3, constt3;
+"112
 [v _i `ul ~T0 @X0 1 e ]
 [v _thousand `ul ~T0 @X0 1 e ]
 [v _hundred `ul ~T0 @X0 1 e ]
 [v _ten `ul ~T0 @X0 1 e ]
 [v _ones `ul ~T0 @X0 1 e ]
 [v _adc_val `ul ~T0 @X0 1 e ]
-[; ;newmain.c: 139: unsigned long int i, thousand, hundred, ten, ones, adc_val;
-"140
+[; ;main.c: 112: unsigned long int i, thousand, hundred, ten, ones, adc_val;
+"113
 [v _sample `l ~T0 @X0 1 e ]
 [i _sample
 -> -> 0 `i `l
 ]
-[; ;newmain.c: 140: long sample = 0;
-"141
+[; ;main.c: 113: long sample = 0;
+"114
+[v _temp_val `l ~T0 @X0 1 e ]
+[i _temp_val
+-> -> 0 `i `l
+]
+[; ;main.c: 114: long temp_val = 0;
+"116
 [v _val `f ~T0 @X0 1 e ]
 [i _val
 -> -> 0 `i `f
 ]
-[; ;newmain.c: 141: float val = 0;
-"142
+[; ;main.c: 116: float val = 0;
+"117
 [v _count `l ~T0 @X0 1 e ]
 [i _count
 -> -> 0 `i `l
 ]
-[; ;newmain.c: 142: long count = 0;
-[; ;newmain.c: 144: unsigned long ReadCount(void);
-[; ;newmain.c: 145: void init(void);
-[; ;newmain.c: 146: unsigned char compute(void);
-[; ;newmain.c: 147: void calibrate();
+[; ;main.c: 117: long count = 0;
+[; ;main.c: 119: unsigned long ReadCount(void);
+[; ;main.c: 120: void init(void);
+[; ;main.c: 121: unsigned char compute(void);
+[; ;main.c: 122: void calibrate();
 [v $root$_main `(v ~T0 @X0 0 e ]
-"149
+"131
 [v _main `(v ~T0 @X0 1 ef ]
 {
-[; ;newmain.c: 149: void main(void) {
+[; ;main.c: 131: void main(void) {
 [e :U _main ]
 [f ]
-"150
+"132
 [v _buff `uc ~T0 @X0 -> 10 `i a ]
-"151
+"133
+[v _address `l ~T0 @X0 1 a ]
+[; ;main.c: 132: char buff[10];
+[; ;main.c: 133: long address = 0;
+[e = _address -> -> 0 `i `l ]
+"134
 [v _weight `i ~T0 @X0 1 a ]
-[; ;newmain.c: 150: char buff[10];
-[; ;newmain.c: 151: int weight = 0;
+[; ;main.c: 134: int weight = 0;
 [e = _weight -> 0 `i ]
-[; ;newmain.c: 152: TRISB = 0;
-"152
+"135
+[v _cnt `i ~T0 @X0 1 a ]
+[; ;main.c: 135: int cnt = 0;
+[e = _cnt -> 0 `i ]
+"136
+[v _buff1 `uc ~T0 @X0 -> 10 `i a ]
+[; ;main.c: 136: char buff1[10];
+[; ;main.c: 138: TRISB = 0;
+"138
 [e = _TRISB -> -> 0 `i `uc ]
-[; ;newmain.c: 153: OSCCON = 0x72;
-"153
+[; ;main.c: 139: OSCCON = 0x72;
+"139
 [e = _OSCCON -> -> 114 `i `uc ]
-[; ;newmain.c: 154: init();
-"154
+[; ;main.c: 142: init();
+"142
 [e ( _init ..  ]
-[; ;newmain.c: 155: MSdelay(3);
-"155
+[; ;main.c: 143: MSdelay(3);
+"143
 [e ( _MSdelay (1 -> -> 3 `i `ui ]
-[; ;newmain.c: 156: USART_Init(9600);
-"156
+[; ;main.c: 144: USART_Init(9600);
+"144
 [e ( _USART_Init (1 -> 9600 `i ]
-[; ;newmain.c: 157: USART_newline();
-"157
+[; ;main.c: 145: USART_newline();
+"145
 [e ( _USART_newline ..  ]
-[; ;newmain.c: 158: send_string("16:34:37");
-"158
+[; ;main.c: 146: send_string("23:50:26");
+"146
 [e ( _send_string (1 -> :s 1C `*uc ]
-[; ;newmain.c: 159: USART_newline();
-"159
+[; ;main.c: 147: USART_newline();
+"147
 [e ( _USART_newline ..  ]
-[; ;newmain.c: 160: send_string ("Jul 29 2018");
-"160
+[; ;main.c: 148: send_string ("Jul 29 2018");
+"148
 [e ( _send_string (1 -> :s 2C `*uc ]
-[; ;newmain.c: 161: USART_newline();
+[; ;main.c: 149: USART_newline();
+"149
+[e ( _USART_newline ..  ]
+[; ;main.c: 151: address = 0;
+"151
+[e = _address -> -> 0 `i `l ]
+[; ;main.c: 152: sample = EEPROMReadlong(address);
+"152
+[e = _sample ( _EEPROMReadlong (1 _address ]
+[; ;main.c: 153: address += 4;
+"153
+[e =+ _address -> -> 4 `i `l ]
+[; ;main.c: 154: temp_val = EEPROMReadlong(address);
+"154
+[e = _temp_val ( _EEPROMReadlong (1 _address ]
+[; ;main.c: 155: val = -1 * (temp_val);
+"155
+[e = _val -> * -> -U -> 1 `i `l _temp_val `f ]
+[; ;main.c: 156: val = val / 300.0;
+"156
+[e = _val -> / -> _val `d .300.0 `f ]
+[; ;main.c: 158: send_string("sample: ");
+"158
+[e ( _send_string (1 -> :s 3C `*uc ]
+[; ;main.c: 159: intToAscci(sample, buff);
+"159
+[e ( _intToAscci (2 , _sample &U _buff ]
+[; ;main.c: 160: send_string(buff);
+"160
+[e ( _send_string (1 &U _buff ]
+[; ;main.c: 161: USART_newline();
 "161
 [e ( _USART_newline ..  ]
-"162
-[v _cnt `i ~T0 @X0 1 a ]
-[; ;newmain.c: 162: int cnt = 0;
-[e = _cnt -> 0 `i ]
+[; ;main.c: 163: send_string("val: ");
 "163
-[v _buff1 `uc ~T0 @X0 -> 10 `i a ]
-[; ;newmain.c: 163: char buff1[10];
-[; ;newmain.c: 164: USART_newline();
+[e ( _send_string (1 -> :s 4C `*uc ]
+[; ;main.c: 164: intToAscci(temp_val, buff);
 "164
-[e ( _USART_newline ..  ]
-[; ;newmain.c: 165: calibrate();
+[e ( _intToAscci (2 , _temp_val &U _buff ]
+[; ;main.c: 165: send_string(buff);
 "165
-[e ( _calibrate ..  ]
-[; ;newmain.c: 167: while (1)
-"167
-[e :U 368 ]
-[; ;newmain.c: 168: {
-"168
-{
-[; ;newmain.c: 169: if (PORTBbits.RB0 == 0)
-"169
-[e $ ! == -> . . _PORTBbits 0 0 `i -> 0 `i 370  ]
-[; ;newmain.c: 170: {
-"170
-{
-[; ;newmain.c: 171: val = 0;
-"171
-[e = _val -> -> 0 `i `f ]
-[; ;newmain.c: 172: sample = 0;
-"172
-[e = _sample -> -> 0 `i `l ]
-[; ;newmain.c: 173: weight = 0;
-"173
-[e = _weight -> 0 `i ]
-[; ;newmain.c: 174: count = 0;
-"174
-[e = _count -> -> 0 `i `l ]
-[; ;newmain.c: 175: calibrate();
-"175
-[e ( _calibrate ..  ]
-"176
-}
-[e :U 370 ]
-[; ;newmain.c: 176: }
-[; ;newmain.c: 177: count = (long)ReadCount();
-"177
-[e = _count -> ( _ReadCount ..  `l ]
-[; ;newmain.c: 178: weight = (((count - sample) / val) - 2 * ((count - sample) / val));
-"178
-[e = _weight -> - / -> - _count _sample `f _val * -> -> 2 `i `f / -> - _count _sample `f _val `i ]
-[; ;newmain.c: 179: intToAscci(weight, buff);
-"179
-[e ( _intToAscci (2 , -> _weight `l &U _buff ]
-[; ;newmain.c: 180: send_string(buff);
-"180
 [e ( _send_string (1 &U _buff ]
-[; ;newmain.c: 181: send_string("  gm");
-"181
-[e ( _send_string (1 -> :s 3C `*uc ]
-[; ;newmain.c: 182: USART_newline();
-"182
+[; ;main.c: 166: USART_newline();
+"166
 [e ( _USART_newline ..  ]
-[; ;newmain.c: 183: MSdelay(1000);
+[; ;main.c: 168: if (sample == 0)
+"168
+[e $ ! == _sample -> -> 0 `i `l 363  ]
+[; ;main.c: 169: {
+"169
+{
+[; ;main.c: 171: calibrate();
+"171
+[e ( _calibrate ..  ]
+"172
+}
+[e :U 363 ]
+[; ;main.c: 172: }
+[; ;main.c: 174: LCD_Clear();
+"174
+[e ( _LCD_Clear ..  ]
+[; ;main.c: 176: while (1)
+"176
+[e :U 365 ]
+[; ;main.c: 177: {
+"177
+{
+[; ;main.c: 179: if (PORTBbits.RB1 == 0)
+"179
+[e $ ! == -> . . _PORTBbits 0 1 `i -> 0 `i 367  ]
+[; ;main.c: 180: {
+"180
+{
+[; ;main.c: 182: val = 0;
+"182
+[e = _val -> -> 0 `i `f ]
+[; ;main.c: 183: sample = 0;
 "183
-[e ( _MSdelay (1 -> -> 1000 `i `ui ]
+[e = _sample -> -> 0 `i `l ]
+[; ;main.c: 184: weight = 0;
 "184
+[e = _weight -> 0 `i ]
+[; ;main.c: 185: count = 0;
+"185
+[e = _count -> -> 0 `i `l ]
+[; ;main.c: 187: calibrate();
+"187
+[e ( _calibrate ..  ]
+"188
 }
 [e :U 367 ]
-"167
-[e $U 368  ]
-[e :U 369 ]
-[; ;newmain.c: 184: }
-[; ;newmain.c: 185: }
-"185
-[e :UE 366 ]
+[; ;main.c: 188: }
+[; ;main.c: 191: count = (long)ReadCount();
+"191
+[e = _count -> ( _ReadCount ..  `l ]
+[; ;main.c: 192: weight = (((count - sample) / val) - 2 * ((count - sample) / val));
+"192
+[e = _weight -> - / -> - _count _sample `f _val * -> -> 2 `i `f / -> - _count _sample `f _val `i ]
+[; ;main.c: 195: intToAscci(weight, buff);
+"195
+[e ( _intToAscci (2 , -> _weight `l &U _buff ]
+[; ;main.c: 196: send_string(buff);
+"196
+[e ( _send_string (1 &U _buff ]
+[; ;main.c: 197: send_string("  gm");
+"197
+[e ( _send_string (1 -> :s 5C `*uc ]
+[; ;main.c: 198: USART_newline();
+"198
+[e ( _USART_newline ..  ]
+[; ;main.c: 200: LCD_Command(0x02);
+"200
+[e ( _LCD_Command (1 -> -> 2 `i `uc ]
+[; ;main.c: 201: LCD_print(buff);
+"201
+[e ( _LCD_print (1 &U _buff ]
+[; ;main.c: 202: LCD_print(" gm");
+"202
+[e ( _LCD_print (1 -> :s 6C `*uc ]
+[; ;main.c: 203: MSdelay(10);
+"203
+[e ( _MSdelay (1 -> -> 10 `i `ui ]
+"204
 }
-"186
+[e :U 364 ]
+"176
+[e $U 365  ]
+[e :U 366 ]
+[; ;main.c: 204: }
+[; ;main.c: 205: }
+"205
+[e :UE 362 ]
+}
+"213
 [v _ReadCount `(ul ~T0 @X0 1 ef ]
 {
-[; ;newmain.c: 186: unsigned long ReadCount(void) {
+[; ;main.c: 213: unsigned long ReadCount(void) {
 [e :U _ReadCount ]
 [f ]
-"188
+"215
 [v _Count `ul ~T0 @X0 1 a ]
 [v _i `uc ~T0 @X0 1 a ]
-[; ;newmain.c: 188: unsigned long Count;
-[; ;newmain.c: 189: unsigned char i;
-[; ;newmain.c: 190: TRISAbits.RA5 = 0 ;
-"190
+[; ;main.c: 215: unsigned long Count;
+[; ;main.c: 216: unsigned char i;
+[; ;main.c: 218: TRISAbits.RA5 = 0 ;
+"218
 [e = . . _TRISAbits 1 5 -> -> 0 `i `uc ]
-[; ;newmain.c: 191: LATAbits.LA5 = 1;
-"191
+[; ;main.c: 220: LATAbits.LA5 = 1;
+"220
 [e = . . _LATAbits 1 5 -> -> 1 `i `uc ]
-[; ;newmain.c: 192: LATAbits.LA4 = 0;
-"192
+[; ;main.c: 222: LATAbits.LA4 = 0;
+"222
 [e = . . _LATAbits 1 4 -> -> 0 `i `uc ]
-[; ;newmain.c: 193: TRISAbits.RA5 = 1;
-"193
+[; ;main.c: 223: TRISAbits.RA5 = 1;
+"223
 [e = . . _TRISAbits 1 5 -> -> 1 `i `uc ]
-[; ;newmain.c: 194: Count = 0;
-"194
+[; ;main.c: 224: Count = 0;
+"224
 [e = _Count -> -> -> 0 `i `l `ul ]
-[; ;newmain.c: 195: while (PORTAbits.RA5);
-"195
-[e $U 372  ]
-[e :U 373 ]
-[e :U 372 ]
-[e $ != -> . . _PORTAbits 0 5 `i -> -> -> 0 `i `Vuc `i 373  ]
-[e :U 374 ]
-[; ;newmain.c: 196: for (i = 0; i < 24; i++) {
-"196
+[; ;main.c: 226: while (PORTAbits.RA5);
+"226
+[e $U 369  ]
+[e :U 370 ]
+[e :U 369 ]
+[e $ != -> . . _PORTAbits 0 5 `i -> -> -> 0 `i `Vuc `i 370  ]
+[e :U 371 ]
+[; ;main.c: 228: for (i = 0; i < 24; i++) {
+"228
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 24 `i 375  ]
-[e $U 376  ]
-[e :U 375 ]
+[e $ < -> _i `i -> 24 `i 372  ]
+[e $U 373  ]
+[e :U 372 ]
 {
-[; ;newmain.c: 197: LATAbits.LA4 = 1;
-"197
+[; ;main.c: 229: LATAbits.LA4 = 1;
+"229
 [e = . . _LATAbits 1 4 -> -> 1 `i `uc ]
-[; ;newmain.c: 198: Count = Count << 1;
-"198
+[; ;main.c: 230: Count = Count << 1;
+"230
 [e = _Count << _Count -> 1 `i ]
-[; ;newmain.c: 199: LATAbits.LA4 = 0;
-"199
+[; ;main.c: 231: LATAbits.LA4 = 0;
+"231
 [e = . . _LATAbits 1 4 -> -> 0 `i `uc ]
-[; ;newmain.c: 200: if (PORTAbits.RA5) Count++;
-"200
-[e $ ! != -> . . _PORTAbits 0 5 `i -> -> -> 0 `i `Vuc `i 378  ]
+[; ;main.c: 232: if (PORTAbits.RA5) Count++;
+"232
+[e $ ! != -> . . _PORTAbits 0 5 `i -> -> -> 0 `i `Vuc `i 375  ]
 [e ++ _Count -> -> -> 1 `i `l `ul ]
-[e :U 378 ]
-"201
+[e :U 375 ]
+"233
 }
-"196
+"228
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 24 `i 375  ]
-[e :U 376 ]
-"201
+[e $ < -> _i `i -> 24 `i 372  ]
+[e :U 373 ]
+"233
 }
-[; ;newmain.c: 201: }
-[; ;newmain.c: 202: LATAbits.LA4 = 1;
-"202
+[; ;main.c: 233: }
+[; ;main.c: 234: LATAbits.LA4 = 1;
+"234
 [e = . . _LATAbits 1 4 -> -> 1 `i `uc ]
-[; ;newmain.c: 203: Count = Count ^ 0x800000;
-"203
+[; ;main.c: 235: Count = Count ^ 0x800000;
+"235
 [e = _Count ^ _Count -> -> 8388608 `l `ul ]
-[; ;newmain.c: 204: LATAbits.LA4 = 0;
-"204
+[; ;main.c: 236: LATAbits.LA4 = 0;
+"236
 [e = . . _LATAbits 1 4 -> -> 0 `i `uc ]
-[; ;newmain.c: 205: return (Count);
-"205
+[; ;main.c: 237: return (Count);
+"237
 [e ) _Count ]
-[e $UE 371  ]
-[; ;newmain.c: 206: }
-"206
-[e :UE 371 ]
+[e $UE 368  ]
+[; ;main.c: 238: }
+"238
+[e :UE 368 ]
 }
-"207
+"246
 [v _calibrate `(v ~T0 @X0 1 ef ]
-"208
+"247
 {
-[; ;newmain.c: 207: void calibrate()
-[; ;newmain.c: 208: {
+[; ;main.c: 246: void calibrate()
+[; ;main.c: 247: {
 [e :U _calibrate ]
 [f ]
-"209
-[v _buff `uc ~T0 @X0 -> 10 `i a ]
-[; ;newmain.c: 209: char buff[10];
-[; ;newmain.c: 210: send_string("Calibrating...");
-"210
-[e ( _send_string (1 -> :s 4C `*uc ]
-[; ;newmain.c: 211: for (int i = 0; i < 100; i++)
-"211
-{
-[v _i `i ~T0 @X0 1 a ]
-[e = _i -> 0 `i ]
-[e $ < _i -> 100 `i 380  ]
-[e $U 381  ]
-"212
-[e :U 380 ]
-[; ;newmain.c: 212: {
-{
-[; ;newmain.c: 213: count = ReadCount();
-"213
-[e = _count -> ( _ReadCount ..  `l ]
-[; ;newmain.c: 214: sample += count;
-"214
-[e =+ _sample _count ]
-[; ;newmain.c: 215: MSdelay(20);
-"215
-[e ( _MSdelay (1 -> -> 20 `i `ui ]
-[; ;newmain.c: 216: intToAscci(count, buff);
-"216
-[e ( _intToAscci (2 , _count &U _buff ]
-[; ;newmain.c: 217: send_string(buff);
-"217
-[e ( _send_string (1 &U _buff ]
-"219
-}
-"211
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 100 `i 380  ]
-[e :U 381 ]
-"219
-}
-[; ;newmain.c: 219: }
-[; ;newmain.c: 220: sample /= 100;
-"220
-[e =/ _sample -> -> 100 `uc `l ]
-[; ;newmain.c: 222: count = 0;
-"222
-[e = _count -> -> 0 `i `l ]
-[; ;newmain.c: 223: send_string("Put the weight & wait");
-"223
-[e ( _send_string (1 -> :s 5C `*uc ]
-[; ;newmain.c: 224: while (count < 2000)
-"224
-[e $U 383  ]
-[e :U 384 ]
-[; ;newmain.c: 225: {
-"225
-{
-[; ;newmain.c: 226: count = ReadCount();
-"226
-[e = _count -> ( _ReadCount ..  `l ]
-[; ;newmain.c: 227: count = count - sample ;
-"227
-[e = _count - _count _sample ]
-[; ;newmain.c: 228: MSdelay(10);
-"228
-[e ( _MSdelay (1 -> -> 10 `i `ui ]
-[; ;newmain.c: 229: intToAscci(count, buff);
-"229
-[e ( _intToAscci (2 , _count &U _buff ]
-[; ;newmain.c: 230: send_string(buff);
-"230
-[e ( _send_string (1 &U _buff ]
-"231
-}
-[e :U 383 ]
-"224
-[e $ < _count -> -> 2000 `i `l 384  ]
-[e :U 385 ]
-[; ;newmain.c: 231: }
-[; ;newmain.c: 232: MSdelay(2000);
-"232
-[e ( _MSdelay (1 -> -> 2000 `i `ui ]
-[; ;newmain.c: 233: send_string("Re-caliberating..");
-"233
-[e ( _send_string (1 -> :s 6C `*uc ]
-[; ;newmain.c: 234: for (int i = 0; i < 100; i++)
-"234
-{
-[v _i `i ~T0 @X0 1 a ]
-[e = _i -> 0 `i ]
-[e $ < _i -> 100 `i 386  ]
-[e $U 387  ]
-"235
-[e :U 386 ]
-[; ;newmain.c: 235: {
-{
-[; ;newmain.c: 236: count = ReadCount();
-"236
-[e = _count -> ( _ReadCount ..  `l ]
-[; ;newmain.c: 237: val += sample - count;
-"237
-[e =+ _val -> - _sample _count `f ]
-[; ;newmain.c: 238: MSdelay(20);
-"238
-[e ( _MSdelay (1 -> -> 20 `i `ui ]
-[; ;newmain.c: 239: intToAscci(count, buff);
-"239
-[e ( _intToAscci (2 , _count &U _buff ]
-[; ;newmain.c: 240: send_string(buff);
-"240
-[e ( _send_string (1 &U _buff ]
-"241
-}
-"234
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 100 `i 386  ]
-[e :U 387 ]
-"241
-}
-[; ;newmain.c: 241: }
-[; ;newmain.c: 242: val = val / 100.0;
-"242
-[e = _val -> / -> _val `d .100.0 `f ]
-[; ;newmain.c: 243: val = val / 300.0;
-"243
-[e = _val -> / -> _val `d .300.0 `f ]
-[; ;newmain.c: 244: }
-"244
-[e :UE 379 ]
-}
-"247
-[v _init `(v ~T0 @X0 1 ef ]
 "248
+[v _buff `uc ~T0 @X0 -> 10 `i a ]
+"249
+[v _address `l ~T0 @X0 1 a ]
+[; ;main.c: 248: char buff[10];
+[; ;main.c: 249: long address = 0;
+[e = _address -> -> 0 `i `l ]
+"250
+[v _temp_val_local `l ~T0 @X0 1 a ]
+[; ;main.c: 250: long temp_val_local = 0;
+[e = _temp_val_local -> -> 0 `i `l ]
+[; ;main.c: 251: send_string("Calibrating...");
+"251
+[e ( _send_string (1 -> :s 7C `*uc ]
+[; ;main.c: 252: LCD_Clear();
+"252
+[e ( _LCD_Clear ..  ]
+[; ;main.c: 253: LCD_print("Calibrating");
+"253
+[e ( _LCD_print (1 -> :s 8C `*uc ]
+[; ;main.c: 255: for (int i = 0; i < 100; i++)
+"255
 {
-[; ;newmain.c: 247: void init(void)
-[; ;newmain.c: 248: {
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+[e $ < _i -> 100 `i 377  ]
+[e $U 378  ]
+"256
+[e :U 377 ]
+[; ;main.c: 256: {
+{
+[; ;main.c: 257: count = ReadCount();
+"257
+[e = _count -> ( _ReadCount ..  `l ]
+[; ;main.c: 258: sample += count;
+"258
+[e =+ _sample _count ]
+[; ;main.c: 259: MSdelay(20);
+"259
+[e ( _MSdelay (1 -> -> 20 `i `ui ]
+[; ;main.c: 260: intToAscci(count, buff);
+"260
+[e ( _intToAscci (2 , _count &U _buff ]
+[; ;main.c: 261: send_string(buff);
+"261
+[e ( _send_string (1 &U _buff ]
+[; ;main.c: 262: USART_newline();
+"262
+[e ( _USART_newline ..  ]
+"263
+}
+"255
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 100 `i 377  ]
+[e :U 378 ]
+"263
+}
+[; ;main.c: 263: }
+[; ;main.c: 265: sample /= 100;
+"265
+[e =/ _sample -> -> 100 `uc `l ]
+[; ;main.c: 267: count = 0;
+"267
+[e = _count -> -> 0 `i `l ]
+[; ;main.c: 268: LCD_Clear();
+"268
+[e ( _LCD_Clear ..  ]
+[; ;main.c: 269: LCD_print("Put 300gm weight");
+"269
+[e ( _LCD_print (1 -> :s 9C `*uc ]
+[; ;main.c: 270: send_string("Put the weight & wait");
+"270
+[e ( _send_string (1 -> :s 10C `*uc ]
+[; ;main.c: 271: USART_newline();
+"271
+[e ( _USART_newline ..  ]
+[; ;main.c: 273: while (count < 2000)
+"273
+[e $U 380  ]
+[e :U 381 ]
+[; ;main.c: 274: {
+"274
+{
+[; ;main.c: 275: count = ReadCount();
+"275
+[e = _count -> ( _ReadCount ..  `l ]
+[; ;main.c: 276: count = count - sample ;
+"276
+[e = _count - _count _sample ]
+[; ;main.c: 277: MSdelay(20);
+"277
+[e ( _MSdelay (1 -> -> 20 `i `ui ]
+[; ;main.c: 278: send_string('.');
+"278
+[e ( _send_string (1 -> -> 46 `ui `*uc ]
+"279
+}
+[e :U 380 ]
+"273
+[e $ < _count -> -> 2000 `i `l 381  ]
+[e :U 382 ]
+[; ;main.c: 279: }
+[; ;main.c: 280: LCD_Clear();
+"280
+[e ( _LCD_Clear ..  ]
+[; ;main.c: 281: LCD_print("Detected weight..");
+"281
+[e ( _LCD_print (1 -> :s 11C `*uc ]
+[; ;main.c: 283: MSdelay(2000);
+"283
+[e ( _MSdelay (1 -> -> 2000 `i `ui ]
+[; ;main.c: 284: LCD_Clear();
+"284
+[e ( _LCD_Clear ..  ]
+[; ;main.c: 285: LCD_print("Recalibrating..");
+"285
+[e ( _LCD_print (1 -> :s 12C `*uc ]
+[; ;main.c: 286: send_string("Recalibrating..");
+"286
+[e ( _send_string (1 -> :s 13C `*uc ]
+[; ;main.c: 288: for (int i = 0; i < 100; i++)
+"288
+{
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+[e $ < _i -> 100 `i 383  ]
+[e $U 384  ]
+"289
+[e :U 383 ]
+[; ;main.c: 289: {
+{
+[; ;main.c: 290: count = ReadCount();
+"290
+[e = _count -> ( _ReadCount ..  `l ]
+[; ;main.c: 292: temp_val += sample - count;
+"292
+[e =+ _temp_val - _sample _count ]
+[; ;main.c: 294: MSdelay(20);
+"294
+[e ( _MSdelay (1 -> -> 20 `i `ui ]
+[; ;main.c: 295: send_string('.');
+"295
+[e ( _send_string (1 -> -> 46 `ui `*uc ]
+"296
+}
+"288
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 100 `i 383  ]
+[e :U 384 ]
+"296
+}
+[; ;main.c: 296: }
+[; ;main.c: 298: address = 0;
+"298
+[e = _address -> -> 0 `i `l ]
+[; ;main.c: 299: EEPROMWritelong(address, sample);
+"299
+[e ( _EEPROMWritelong (2 , -> _address `i _sample ]
+[; ;main.c: 300: address += 4;
+"300
+[e =+ _address -> -> 4 `i `l ]
+[; ;main.c: 302: temp_val = temp_val / 100;
+"302
+[e = _temp_val / _temp_val -> -> 100 `i `l ]
+[; ;main.c: 304: temp_val_local = -1 * temp_val;
+"304
+[e = _temp_val_local * -> -U -> 1 `i `l _temp_val ]
+[; ;main.c: 306: EEPROMWritelong(address, temp_val_local);
+"306
+[e ( _EEPROMWritelong (2 , -> _address `i _temp_val_local ]
+[; ;main.c: 308: intToAscci(temp_val_local, buff);
+"308
+[e ( _intToAscci (2 , _temp_val_local &U _buff ]
+[; ;main.c: 309: send_string(buff);
+"309
+[e ( _send_string (1 &U _buff ]
+[; ;main.c: 311: address = 0;
+"311
+[e = _address -> -> 0 `i `l ]
+[; ;main.c: 313: sample = EEPROMReadlong(address);
+"313
+[e = _sample ( _EEPROMReadlong (1 _address ]
+[; ;main.c: 314: address += 4;
+"314
+[e =+ _address -> -> 4 `i `l ]
+[; ;main.c: 315: temp_val = EEPROMReadlong(address);
+"315
+[e = _temp_val ( _EEPROMReadlong (1 _address ]
+[; ;main.c: 316: val = -1 * (temp_val);
+"316
+[e = _val -> * -> -U -> 1 `i `l _temp_val `f ]
+[; ;main.c: 318: val = val / 300.0;
+"318
+[e = _val -> / -> _val `d .300.0 `f ]
+[; ;main.c: 319: }
+"319
+[e :UE 376 ]
+}
+"328
+[v _init `(v ~T0 @X0 1 ef ]
+"329
+{
+[; ;main.c: 328: void init(void)
+[; ;main.c: 329: {
 [e :U _init ]
 [f ]
-[; ;newmain.c: 249: ADCON1 = 0b00001111;
-"249
+[; ;main.c: 331: ADCON1 = 0b00001111;
+"331
 [e = _ADCON1 -> -> 15 `i `uc ]
-[; ;newmain.c: 250: CMCON = 0b00000111;
-"250
+[; ;main.c: 332: CMCON = 0b00000111;
+"332
 [e = _CMCON -> -> 7 `i `uc ]
-[; ;newmain.c: 251: CVRCON = 0;
-"251
+[; ;main.c: 333: CVRCON = 0;
+"333
 [e = _CVRCON -> -> 0 `i `uc ]
-[; ;newmain.c: 252: UCON = 0;
-"252
+[; ;main.c: 334: UCON = 0;
+"334
 [e = _UCON -> -> 0 `i `uc ]
-[; ;newmain.c: 253: CCP1CON = 0;
-"253
+[; ;main.c: 335: CCP1CON = 0;
+"335
 [e = _CCP1CON -> -> 0 `i `uc ]
-[; ;newmain.c: 254: CCP2CON = 0;
-"254
+[; ;main.c: 336: CCP2CON = 0;
+"336
 [e = _CCP2CON -> -> 0 `i `uc ]
-[; ;newmain.c: 256: LATAbits.LATA4 = 1;
-"256
-[e = . . _LATAbits 0 4 -> -> 1 `i `uc ]
-[; ;newmain.c: 257: TRISBbits.TRISB1 = 1;
-"257
+[; ;main.c: 338: TRISBbits.TRISB1 = 1;
+"338
 [e = . . _TRISBbits 0 1 -> -> 1 `i `uc ]
-[; ;newmain.c: 258: TRISBbits.TRISB0 = 1;
-"258
+[; ;main.c: 339: TRISBbits.TRISB0 = 1;
+"339
 [e = . . _TRISBbits 0 0 -> -> 1 `i `uc ]
-[; ;newmain.c: 259: TRISBbits.TRISB2 = 1;
-"259
+[; ;main.c: 340: TRISBbits.TRISB2 = 1;
+"340
 [e = . . _TRISBbits 0 2 -> -> 1 `i `uc ]
-[; ;newmain.c: 260: calib = 0;
-"260
+[; ;main.c: 341: calib = 0;
+"341
 [e = _calib -> -> 0 `i `l ]
-[; ;newmain.c: 261: page = 1;
-"261
+[; ;main.c: 342: page = 1;
+"342
 [e = _page -> -> 1 `i `uc ]
-[; ;newmain.c: 262: MSdelay(100);
-"262
+[; ;main.c: 343: MSdelay(100);
+"343
 [e ( _MSdelay (1 -> -> 100 `i `ui ]
-[; ;newmain.c: 263: TRISAbits.TRISA5 = 1;
-"263
-[e = . . _TRISAbits 0 5 -> -> 1 `i `uc ]
-[; ;newmain.c: 264: TRISAbits.TRISA4 = 0;
-"264
-[e = . . _TRISAbits 0 4 -> -> 0 `i `uc ]
-[; ;newmain.c: 265: LATAbits.LATA4 = 1;
-"265
-[e = . . _LATAbits 0 4 -> -> 1 `i `uc ]
-[; ;newmain.c: 266: USART_Init(9600);
-"266
+[; ;main.c: 345: USART_Init(9600);
+"345
 [e ( _USART_Init (1 -> 9600 `i ]
-[; ;newmain.c: 267: TRISA0 = 1;
-"267
+[; ;main.c: 346: TRISA0 = 1;
+"346
 [e = _TRISA0 -> -> 1 `i `b ]
-[; ;newmain.c: 268: TRISAbits.RA5 = 1;
-"268
+[; ;main.c: 347: TRISAbits.RA5 = 1;
+"347
 [e = . . _TRISAbits 1 5 -> -> 1 `i `uc ]
-[; ;newmain.c: 269: TRISAbits.RA4 = 0;
-"269
+[; ;main.c: 348: TRISAbits.RA4 = 0;
+"348
 [e = . . _TRISAbits 1 4 -> -> 0 `i `uc ]
-[; ;newmain.c: 271: }
-"271
-[e :UE 389 ]
+[; ;main.c: 350: LCD_Init();
+"350
+[e ( _LCD_Init ..  ]
+[; ;main.c: 351: LCD_print("Weigh Scale");
+"351
+[e ( _LCD_print (1 -> :s 14C `*uc ]
+[; ;main.c: 353: }
+"353
+[e :UE 386 ]
 }
-"272
-[v _compute `(uc ~T0 @X0 1 ef ]
-"273
-{
-[; ;newmain.c: 272: unsigned char compute(void)
-[; ;newmain.c: 273: {
-[e :U _compute ]
-[f ]
-[; ;newmain.c: 274: b1 = b1 * 2;
-"274
-[e = _b1 -> * -> _b1 `i -> 2 `i `uc ]
-[; ;newmain.c: 275: b2 = b2 * 4;
-"275
-[e = _b2 -> * -> _b2 `i -> 4 `i `uc ]
-[; ;newmain.c: 276: b3 = b3 * 8;
-"276
-[e = _b3 -> * -> _b3 `i -> 8 `i `uc ]
-[; ;newmain.c: 277: b4 = b4 * 16;
-"277
-[e = _b4 -> * -> _b4 `i -> 16 `i `uc ]
-[; ;newmain.c: 278: b5 = b5 * 32;
-"278
-[e = _b5 -> * -> _b5 `i -> 32 `i `uc ]
-[; ;newmain.c: 279: b6 = b6 * 64;
-"279
-[e = _b6 -> * -> _b6 `i -> 64 `i `uc ]
-[; ;newmain.c: 280: b7 = b7 * 128;
-"280
-[e = _b7 -> * -> _b7 `i -> 128 `i `uc ]
-[; ;newmain.c: 281: rez1 = b0 + b1 + b2 + b3 + b4 + b5 + b6 + b7;
-"281
-[e = _rez1 -> + + + + + + + -> _b0 `i -> _b1 `i -> _b2 `i -> _b3 `i -> _b4 `i -> _b5 `i -> _b6 `i -> _b7 `i `l ]
-[; ;newmain.c: 282: b9 = b9 * 2;
-"282
-[e = _b9 -> * -> _b9 `i -> 2 `i `uc ]
-[; ;newmain.c: 283: b10 = b10 * 4;
-"283
-[e = _b10 -> * -> _b10 `i -> 4 `i `uc ]
-[; ;newmain.c: 284: b11 = b11 * 8;
-"284
-[e = _b11 -> * -> _b11 `i -> 8 `i `uc ]
-[; ;newmain.c: 285: b12 = b12 * 16;
-"285
-[e = _b12 -> * -> _b12 `i -> 16 `i `uc ]
-[; ;newmain.c: 286: b13 = b13 * 32;
-"286
-[e = _b13 -> * -> _b13 `i -> 32 `i `uc ]
-[; ;newmain.c: 287: b14 = b14 * 64;
-"287
-[e = _b14 -> * -> _b14 `i -> 64 `i `uc ]
-[; ;newmain.c: 288: b15 = b15 * 128;
-"288
-[e = _b15 -> * -> _b15 `i -> 128 `i `uc ]
-[; ;newmain.c: 289: rez2 = b8 + b9 + b10 + b11 + b12 + b13 + b14 + b15;
-"289
-[e = _rez2 -> + + + + + + + -> _b8 `i -> _b9 `i -> _b10 `i -> _b11 `i -> _b12 `i -> _b13 `i -> _b14 `i -> _b15 `i `l ]
-[; ;newmain.c: 290: b17 = b17 * 2;
-"290
-[e = _b17 -> * -> _b17 `i -> 2 `i `uc ]
-[; ;newmain.c: 291: rez3 = b16 + b17;
-"291
-[e = _rez3 -> + -> _b16 `i -> _b17 `i `l ]
-[; ;newmain.c: 292: rez = rez3 * 65536 + rez2 * 256 + rez1;
-"292
-[e = _rez + + * _rez3 -> 65536 `l * _rez2 -> -> 256 `i `l _rez1 ]
-[; ;newmain.c: 294: rez4 = rez & 0b00000000000000100000000000000000;
-"294
-[e = _rez4 & _rez -> 131072 `l ]
-"295
-[v _buf `uc ~T0 @X0 -> 20 `i a ]
-[; ;newmain.c: 295: char buf[20];
-[; ;newmain.c: 296: intToAscci(rez, buf);
-"296
-[e ( _intToAscci (2 , _rez &U _buf ]
-[; ;newmain.c: 298: send_string(buf);
-"298
-[e ( _send_string (1 &U _buf ]
-[; ;newmain.c: 299: txr(0x0a);
-"299
-[e ( _txr (1 -> -> 10 `i `uc ]
-[; ;newmain.c: 300: txr(0x0D);
-"300
-[e ( _txr (1 -> -> 13 `i `uc ]
-[; ;newmain.c: 302: }
-"302
-[e :UE 390 ]
-}
-[a 5C 80 117 116 32 116 104 101 32 119 101 105 103 104 116 32 38 32 119 97 105 116 0 ]
-[a 3C 32 32 103 109 0 ]
+[a 10C 80 117 116 32 116 104 101 32 119 101 105 103 104 116 32 38 32 119 97 105 116 0 ]
+[a 9C 80 117 116 32 51 48 48 103 109 32 119 101 105 103 104 116 0 ]
+[a 5C 32 32 103 109 0 ]
+[a 6C 32 103 109 0 ]
+[a 8C 67 97 108 105 98 114 97 116 105 110 103 0 ]
+[a 14C 87 101 105 103 104 32 83 99 97 108 101 0 ]
 [a 2C 74 117 108 32 50 57 32 50 48 49 56 0 ]
-[a 1C 49 54 58 51 52 58 51 55 0 ]
-[a 6C 82 101 45 99 97 108 105 98 101 114 97 116 105 110 103 46 46 0 ]
-[a 4C 67 97 108 105 98 114 97 116 105 110 103 46 46 46 0 ]
+[a 1C 50 51 58 53 48 58 50 54 0 ]
+[a 11C 68 101 116 101 99 116 101 100 32 119 101 105 103 104 116 46 46 0 ]
+[a 12C 82 101 99 97 108 105 98 114 97 116 105 110 103 46 46 0 ]
+[a 13C 82 101 99 97 108 105 98 114 97 116 105 110 103 46 46 0 ]
+[a 7C 67 97 108 105 98 114 97 116 105 110 103 46 46 46 0 ]
+[a 4C 118 97 108 58 32 0 ]
+[a 3C 115 97 109 112 108 101 58 32 0 ]

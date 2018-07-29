@@ -4808,13 +4808,14 @@ extern __nonreentrant void _delay3(unsigned char);
 # 15 "delay.h"
 void MSdelay(unsigned int val);
 
-# 9 "LCD_16x2.c"
+# 14 "LCD_16x2.h"
 void LCD_Init();
 void LCD_Command(unsigned char );
 void LCD_Char(unsigned char x);
-void LCD_Str(char* str);
+void LCD_print(char str[]);
 void LCD_Clear();
 
+# 11 "LCD_16x2.c"
 void LCD_Init()
 {
 TRISA = 0;
@@ -4824,10 +4825,10 @@ MSdelay(20);
 
 LCD_Command(0x02);
 
-# 25
+# 21
 LCD_Command(0x28);
 
-# 28
+# 24
 LCD_Command(0x01);
 
 LCD_Command(0x0c);
@@ -4836,6 +4837,17 @@ LCD_Command(0x06);
 
 }
 
+
+void LCD_print(char str[])
+{
+int sndstr_cnt =0;
+
+while (str[sndstr_cnt] != 0x00)
+{
+LCD_Char(str[sndstr_cnt]);
+sndstr_cnt++;
+}
+}
 void LCD_Command(unsigned char cmd )
 {
 char data=0;

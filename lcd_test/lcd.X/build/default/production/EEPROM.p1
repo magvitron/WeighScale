@@ -3553,8 +3553,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic18.h: 168: extern __nonreentrant void _delay3(unsigned char);
 [; ;EEPROM.h: 15: void EEPROM_Write (int address, char data);
 [; ;EEPROM.h: 16: char EEPROM_Read(int address);
-[; ;EEPROM.h: 17: void EEPROMWriteDouble(int p_address, long p_value);
-[; ;EEPROM.h: 18: float EEPROMReadDouble(int p_address);
+[; ;EEPROM.h: 17: void EEPROMWritelong(int address, long value);
+[; ;EEPROM.h: 18: long EEPROMReadlong(long address);
 "4 EEPROM.c
 [v _EEPROM_Write `(v ~T0 @X0 1 ef2`i`uc ]
 "5
@@ -3643,92 +3643,81 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :UE 366 ]
 }
 "37
-[v _EEPROMWriteDouble `(v ~T0 @X0 1 ef2`i`l ]
+[v _EEPROMWritelong `(v ~T0 @X0 1 ef2`i`l ]
 "38
 {
-[; ;EEPROM.c: 37: void EEPROMWriteDouble(int p_address, long p_value)
+[; ;EEPROM.c: 37: void EEPROMWritelong(int address, long value)
 [; ;EEPROM.c: 38: {
-[e :U _EEPROMWriteDouble ]
+[e :U _EEPROMWritelong ]
 "37
-[v _p_address `i ~T0 @X0 1 r1 ]
-[v _p_value `l ~T0 @X0 1 r2 ]
+[v _address `i ~T0 @X0 1 r1 ]
+[v _value `l ~T0 @X0 1 r2 ]
 "38
 [f ]
-"39
-[v _Byte1 `uc ~T0 @X0 1 a ]
-[; ;EEPROM.c: 39: unsigned char Byte1 = (char)((p_value >> 0) & 0xFF);
-[e = _Byte1 -> & >> _p_value -> 0 `i -> -> 255 `i `l `uc ]
-"40
-[v _Byte2 `uc ~T0 @X0 1 a ]
-[; ;EEPROM.c: 40: unsigned char Byte2 = (int)((p_value >> 8) & 0xFF);
-[e = _Byte2 -> -> & >> _p_value -> 8 `i -> -> 255 `i `l `i `uc ]
 "41
-[v _Byte3 `uc ~T0 @X0 1 a ]
-[; ;EEPROM.c: 41: unsigned char Byte3 = (int)((p_value >> 16) & 0xFF);
-[e = _Byte3 -> -> & >> _p_value -> 16 `i -> -> 255 `i `l `i `uc ]
+[v _four `uc ~T0 @X0 1 a ]
+[; ;EEPROM.c: 41: unsigned char four = (value & 0xFF);
+[e = _four -> & _value -> -> 255 `i `l `uc ]
 "42
-[v _Byte4 `uc ~T0 @X0 1 a ]
-[; ;EEPROM.c: 42: unsigned char Byte4 = (int)((p_value >> 24) & 0xFF);
-[e = _Byte4 -> -> & >> _p_value -> 24 `i -> -> 255 `i `l `i `uc ]
-[; ;EEPROM.c: 44: EEPROM_Write(p_address, Byte1);
+[v _three `uc ~T0 @X0 1 a ]
+[; ;EEPROM.c: 42: unsigned char three = ((value >> 8) & 0xFF);
+[e = _three -> & >> _value -> 8 `i -> -> 255 `i `l `uc ]
+"43
+[v _two `uc ~T0 @X0 1 a ]
+[; ;EEPROM.c: 43: unsigned char two = ((value >> 16) & 0xFF);
+[e = _two -> & >> _value -> 16 `i -> -> 255 `i `l `uc ]
 "44
-[e ( _EEPROM_Write (2 , _p_address _Byte1 ]
-[; ;EEPROM.c: 45: EEPROM_Write(p_address + 1, Byte2);
-"45
-[e ( _EEPROM_Write (2 , + _p_address -> 1 `i _Byte2 ]
-[; ;EEPROM.c: 46: EEPROM_Write(p_address + 2, Byte3);
-"46
-[e ( _EEPROM_Write (2 , + _p_address -> 2 `i _Byte3 ]
-[; ;EEPROM.c: 47: EEPROM_Write(p_address + 3, Byte4);
+[v _one `uc ~T0 @X0 1 a ]
+[; ;EEPROM.c: 44: unsigned char one = ((value >> 24) & 0xFF);
+[e = _one -> & >> _value -> 24 `i -> -> 255 `i `l `uc ]
+[; ;EEPROM.c: 47: EEPROM_Write(address, four);
 "47
-[e ( _EEPROM_Write (2 , + _p_address -> 3 `i _Byte4 ]
-[; ;EEPROM.c: 48: }
+[e ( _EEPROM_Write (2 , _address _four ]
+[; ;EEPROM.c: 48: EEPROM_Write(address + 1, three);
 "48
+[e ( _EEPROM_Write (2 , + _address -> 1 `i _three ]
+[; ;EEPROM.c: 49: EEPROM_Write(address + 2, two);
+"49
+[e ( _EEPROM_Write (2 , + _address -> 2 `i _two ]
+[; ;EEPROM.c: 50: EEPROM_Write(address + 3, one);
+"50
+[e ( _EEPROM_Write (2 , + _address -> 3 `i _one ]
+[; ;EEPROM.c: 51: }
+"51
 [e :UE 367 ]
 }
-"50
-[v _EEPROMReadDouble `(f ~T0 @X0 1 ef1`i ]
-"51
-{
-[; ;EEPROM.c: 50: float EEPROMReadDouble(int p_address)
-[; ;EEPROM.c: 51: {
-[e :U _EEPROMReadDouble ]
-"50
-[v _p_address `i ~T0 @X0 1 r1 ]
-"51
-[f ]
-"52
-[v _Byte1 `uc ~T0 @X0 1 a ]
-[; ;EEPROM.c: 52: unsigned char Byte1 = EEPROM_Read(p_address);
-[e = _Byte1 ( _EEPROM_Read (1 _p_address ]
 "53
-[v _Byte2 `uc ~T0 @X0 1 a ]
-[; ;EEPROM.c: 53: unsigned char Byte2 = EEPROM_Read(p_address + 1);
-[e = _Byte2 ( _EEPROM_Read (1 + _p_address -> 1 `i ]
+[v _EEPROMReadlong `(l ~T0 @X0 1 ef1`l ]
 "54
-[v _Byte3 `uc ~T0 @X0 1 a ]
-[; ;EEPROM.c: 54: unsigned char Byte3 = EEPROM_Read(p_address + 2);
-[e = _Byte3 ( _EEPROM_Read (1 + _p_address -> 2 `i ]
-"55
-[v _Byte4 `uc ~T0 @X0 1 a ]
-[; ;EEPROM.c: 55: unsigned char Byte4 = EEPROM_Read(p_address + 3);
-[e = _Byte4 ( _EEPROM_Read (1 + _p_address -> 3 `i ]
+{
+[; ;EEPROM.c: 53: long EEPROMReadlong(long address)
+[; ;EEPROM.c: 54: {
+[e :U _EEPROMReadlong ]
+"53
+[v _address `l ~T0 @X0 1 r1 ]
+"54
+[f ]
+"56
+[v _four `l ~T0 @X0 1 a ]
+[; ;EEPROM.c: 56: long four = EEPROM_Read(address);
+[e = _four -> ( _EEPROM_Read (1 -> _address `i `l ]
 "57
-[v _firstTwoBytes `l ~T0 @X0 1 a ]
-[; ;EEPROM.c: 57: long firstTwoBytes = ((Byte1 << 0) & 0xFF) + ((Byte2 << 8) & 0xFF00);
-[e = _firstTwoBytes -> + -> & << -> _Byte1 `i -> 0 `i -> 255 `i `ui & -> << -> _Byte2 `i -> 8 `i `ui -> 65280 `ui `l ]
+[v _three `l ~T0 @X0 1 a ]
+[; ;EEPROM.c: 57: long three = EEPROM_Read(address + 1);
+[e = _three -> ( _EEPROM_Read (1 -> + _address -> -> 1 `i `l `i `l ]
 "58
-[v _secondTwoBytes `l ~T0 @X0 1 a ]
-[; ;EEPROM.c: 58: long secondTwoBytes = (((Byte3 << 0) & 0xFF) + ((Byte4 << 8) & 0xFF00));
-[e = _secondTwoBytes -> + -> & << -> _Byte3 `i -> 0 `i -> 255 `i `ui & -> << -> _Byte4 `i -> 8 `i `ui -> 65280 `ui `l ]
-[; ;EEPROM.c: 59: secondTwoBytes *= 65536;
+[v _two `l ~T0 @X0 1 a ]
+[; ;EEPROM.c: 58: long two = EEPROM_Read(address + 2);
+[e = _two -> ( _EEPROM_Read (1 -> + _address -> -> 2 `i `l `i `l ]
 "59
-[e =* _secondTwoBytes -> 65536 `l ]
-[; ;EEPROM.c: 61: return (firstTwoBytes + secondTwoBytes);
-"61
-[e ) -> + _firstTwoBytes _secondTwoBytes `f ]
-[e $UE 368  ]
-[; ;EEPROM.c: 62: }
+[v _one `l ~T0 @X0 1 a ]
+[; ;EEPROM.c: 59: long one = EEPROM_Read(address + 3);
+[e = _one -> ( _EEPROM_Read (1 -> + _address -> -> 3 `i `l `i `l ]
+[; ;EEPROM.c: 62: return ((four << 0) & 0xFF) + ((three << 8) & 0xFFFF) + ((two << 16) & 0xFFFFFF) + ((one << 24) & 0xFFFFFFFF);
 "62
+[e ) -> + -> + + & << _four -> 0 `i -> -> 255 `i `l & << _three -> 8 `i -> -> 65535 `ui `l & << _two -> 16 `i -> 16777215 `l `ul & -> << _one -> 24 `i `ul -> -1 `ul `l ]
+[e $UE 368  ]
+[; ;EEPROM.c: 63: }
+"63
 [e :UE 368 ]
 }

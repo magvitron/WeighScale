@@ -14,8 +14,8 @@ extern "C" {
 
 void EEPROM_Write (int address, char data);
 char EEPROM_Read(int address);
-void EEPROMWriteDouble(int p_address, long p_value);
-float EEPROMReadDouble(int p_address);
+void EEPROMWritelong(int address, long value);
+long EEPROMReadlong(long address);
 
 
 #ifdef	__cplusplus

@@ -4808,8 +4808,8 @@ extern __nonreentrant void _delay3(unsigned char);
 # 15 "EEPROM.h"
 void EEPROM_Write (int address, char data);
 char EEPROM_Read(int address);
-void EEPROMWriteDouble(int p_address, long p_value);
-float EEPROMReadDouble(int p_address);
+void EEPROMWritelong(int address, long value);
+long EEPROMReadlong(long address);
 
 # 4 "EEPROM.c"
 void EEPROM_Write (int address, char data)
@@ -4844,29 +4844,31 @@ EECON1bits.RD=1;
 return(EEDATA);
 }
 
-void EEPROMWriteDouble(int p_address, long p_value)
+void EEPROMWritelong(int address, long value)
 {
-unsigned char Byte1 = (char)((p_value >> 0) & 0xFF);
-unsigned char Byte2 = (int)((p_value >> 8) & 0xFF);
-unsigned char Byte3 = (int)((p_value >> 16) & 0xFF);
-unsigned char Byte4 = (int)((p_value >> 24) & 0xFF);
 
-EEPROM_Write(p_address, Byte1);
-EEPROM_Write(p_address + 1, Byte2);
-EEPROM_Write(p_address + 2, Byte3);
-EEPROM_Write(p_address + 3, Byte4);
+
+unsigned char four = (value & 0xFF);
+unsigned char three = ((value >> 8) & 0xFF);
+unsigned char two = ((value >> 16) & 0xFF);
+unsigned char one = ((value >> 24) & 0xFF);
+
+
+EEPROM_Write(address, four);
+EEPROM_Write(address + 1, three);
+EEPROM_Write(address + 2, two);
+EEPROM_Write(address + 3, one);
 }
 
-float EEPROMReadDouble(int p_address)
+long EEPROMReadlong(long address)
 {
-unsigned char Byte1 = EEPROM_Read(p_address);
-unsigned char Byte2 = EEPROM_Read(p_address + 1);
-unsigned char Byte3 = EEPROM_Read(p_address + 2);
-unsigned char Byte4 = EEPROM_Read(p_address + 3);
 
-long firstTwoBytes = ((Byte1 << 0) & 0xFF) + ((Byte2 << 8) & 0xFF00);
-long secondTwoBytes = (((Byte3 << 0) & 0xFF) + ((Byte4 << 8) & 0xFF00));
-secondTwoBytes *= 65536;
+long four = EEPROM_Read(address);
+long three = EEPROM_Read(address + 1);
+long two = EEPROM_Read(address + 2);
+long one = EEPROM_Read(address + 3);
 
-return (firstTwoBytes + secondTwoBytes);
+
+return ((four << 0) & 0xFF) + ((three << 8) & 0xFFFF) + ((two << 16) & 0xFFFFFF) + ((one << 24) & 0xFFFFFFFF);
 }
+
