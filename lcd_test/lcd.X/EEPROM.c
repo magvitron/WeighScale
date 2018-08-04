@@ -1,6 +1,14 @@
 #include <xc.h>
 #include "EEPROM.h"
-
+/**
+ *  \brief Write to eerpom
+ *  
+ *  \param [in] address Description for address
+ *  \param [in] data Description for data
+ *  \return Return description
+ *  
+ *  \details More details
+ */
 void EEPROM_Write (int address, char data)
 {
     /* Write Operation*/
@@ -24,6 +32,14 @@ void EEPROM_Write (int address, char data)
     while(PIR2bits.EEIF==0);	/* Wait for write operation complete */
     PIR2bits.EEIF=0;		/* Reset EEIF for further write operation */
 }
+/**
+ *  \brief Brief description
+ *  
+ *  \param [in] address Description for address
+ *  \return Return description
+ *  
+ *  \details More details
+ */
 char EEPROM_Read(int address)
 {
     /*Read operation*/
@@ -33,7 +49,15 @@ char EEPROM_Read(int address)
     EECON1bits.RD=1;	/* To Read data of EEPROM memory set RD=1*/
     return(EEDATA);
 }
-
+/**
+ *  \brief Brief description
+ *  
+ *  \param [in] address Description for address
+ *  \param [in] value Description for value
+ *  \return Return description
+ *  
+ *  \details More details
+ */
 void EEPROMWritelong(int address, long value)
       {
       //Decomposition from a long to 4 unsigned char s by using bitshift.
@@ -49,7 +73,14 @@ void EEPROMWritelong(int address, long value)
       EEPROM_Write(address + 2, two);
       EEPROM_Write(address + 3, one);
       }
-
+/**
+ *  \brief Brief description
+ *  
+ *  \param [in] address Description for address
+ *  \return Return description
+ *  
+ *  \details More details
+ */
 long EEPROMReadlong(long address)
       {
       //Read the 4 bytes from the eeprom memory.
